@@ -1,0 +1,44 @@
+bili_cookie: "YOUR_BILIBILI_COOKIE_HERE"
+feishu_webhook: "https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_WEBHOOK_TOKEN"
+
+bilibili:
+  api_features: "itemOpusStyle,listOnlyfans,decorationCard,ugcDelete,dislikeReportV2,feedABexp,rcmdResourceType,isCooperation"
+  request_timeout_seconds: 30
+  user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+  verify_ssl: false             # 内网机器缺根证书时置 false，同时用于飞书 https 推送
+
+feishu:
+  message_max_bytes: 20480
+  batch_max_bytes: 18000
+  request_timeout_seconds: 15
+  card_theme:
+    push: blue
+    alert: red
+    error: grey
+
+monitor:
+  keep_recent_sent_ids: 200
+  stock_match_window_seconds: 172800
+  memory_dir: memory
+  error_log_file: data/bili-monitor-error.log
+  recent_stocks_file: memory/recent_stocks.jsonl
+  alerted_pairs_file: memory/alerted_pairs.json
+
+scheduler:
+  high_freq_interval_seconds: 120
+  low_freq_interval_seconds: 3600
+  high_freq_start_hour: 9
+  high_freq_end_hour: 15
+  monitor_run_timeout_seconds: 180
+  shutdown_check_interval_seconds: 5
+  log_file: data/scheduler.log
+
+stock_match:
+  dict_file: stock_dict.json
+  stopwords_file: stopwords.json
+
+monitored_ups:
+  - name: UP主名称
+    uid: "UID数字字符串"
+    enabled: true
+  # 继续添加更多 UP 主...

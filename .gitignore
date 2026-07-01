@@ -1,0 +1,26 @@
+# 配置文件（含真实凭证）
+config.yaml
+
+# 运行时数据
+memory/
+data/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
