@@ -23,8 +23,20 @@ _TIMEOUT = config.get("bilibili.request_timeout_seconds", 30)
 _UA = config.get("bilibili.user_agent")
 _VERIFY_SSL = config.get("bilibili.verify_ssl", True)
 
-# 内网环境常缺少根证书，允许通过 config 关闭验证
-_SSL_CTX = None if _VERIFY_SSL else ssl._create_unverified_context()
+# 内网环境需要特殊 SSL 配置：
+# 1. Python 3.7 的默认 TLS 1.3 与部分 CDN 节点握手超时，强制上限 TLS 1.2
+# 2. 内网环境常缺少根证书，可通过 config 关闭验证
+# 3. 禁用 ALPN 防止 HTTP/2 协议错误
+if _VERIFY_SSL:
+    _SSL_CTX = ssl.create_default_context()
+else:
+    _SSL_CTX = ssl._create_unverified_context()
+# 限制 TLS 版本不超过 1.2（避开 CDN TLS 1.3 握手超时）
+try:
+    _SSL_CTX.maximum_version = ssl.TLSVersion.TLSv1_2
+except (AttributeError, ValueError):
+    pass  # Python <3.7 不支持 TLSVersion，忽略即可
+_SSL_CTX.set_alpn_protocols([])  # 禁用 ALPN，强制 HTTP/1.1
 
 
 def fetch_dynamics(host_mid):
